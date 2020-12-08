@@ -2,19 +2,18 @@ import { Router } from 'express';
 import Marketplaces from '../models/marketplaceModel';
 const router = Router();
 
-router.get('/', async (req, res) => {
+router.get('/', async (req, res, next) => {
   try {
     const marketplaces = await Marketplaces.find({});
     console.log(marketplaces); // should be an array of objects books
 
     return res.json(marketplaces);
   } catch (e) {
-    console.error(e);
-    return res.status(500).send(e);
+    next(e);
   }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', async (req, res, next) => {
   try {
     const { body } = req;
     console.log(body);
@@ -49,12 +48,11 @@ router.post('/', async (req, res) => {
       data: marketplace,
     });
   } catch (e) {
-    console.error(e);
-    return res.status(500).send(e);
+    next(e);
   }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', async (req, res, next) => {
   try {
     const { body } = req;
     const { id } = req.params;
@@ -87,16 +85,14 @@ router.put('/:id', async (req, res) => {
       data: marketplace,
     });
   } catch (e) {
-    console.error(e);
-
     if (e.kind == 'ObjectId' && e.path == '_id') {
       return res.status(400).json({ error: 'Invalid id parameter' });
     }
-    return res.status(500).send(e);
+    next(e);
   }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -104,8 +100,7 @@ router.delete('/:id', async (req, res) => {
 
     return res.json({ success: true });
   } catch (e) {
-    console.error(e);
-    return res.status(500).send(e);
+    next(e);
   }
 });
 
