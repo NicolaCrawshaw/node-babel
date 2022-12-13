@@ -15,7 +15,7 @@
   "license": "MIT",
   "dependencies": {
     "@types/jest": "^26.0.14",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "jest": "^26.4.2",
     "mongodb": "^3.6.2",
     "mongoose": "^5.10.7",
